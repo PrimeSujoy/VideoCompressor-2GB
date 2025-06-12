@@ -1,4 +1,3 @@
-python
 from pyrogram import Client, filters
 from config import Config
 from database import db
