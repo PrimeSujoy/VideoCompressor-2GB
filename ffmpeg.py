@@ -1,4 +1,3 @@
-python
 import subprocess
 
 async def compress_video(input_path, output_path, codec="libx265", crf=28):
