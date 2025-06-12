@@ -29,8 +29,7 @@ async def handle_video(client, message: Message):
 
 async def process_queue(client):
   task = await db.get_next_in_queue()
-    if not task:
-        return
+    if not task: return
 
     user_id = task["user_id"]
     file_id = task["file_id"]
