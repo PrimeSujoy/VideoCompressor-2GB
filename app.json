@@ -1,7 +1,7 @@
 {
     "name": "Video Compressor 2GB Bot",
     "description": "Telegram Video Compressor Bot with 2GB limit",
-    "repository": "https://github.com/your-repo/video-compressor-2gb-bot",
+    "repository": "https://github.com/PrimeSujoy/video-compressor-2gb-bot",
     "keywords": ["video-compressor", "telegram-bot"],
     "env": {
         "API_ID": {
