@@ -20,7 +20,10 @@ async def handle_video(client, message: Message):
     total_tasks = await db.queue.count_documents({})
     if total_tasks >= Config.MAX_QUEUE_SIZE:
         position = total_tasks - Config.MAX_QUEUE_SIZE + 1
-        await message.reply(f"5/5 Process running your task is added to the queue. Your video will be compressed soon😎.\nPlease wait until other's task gets completed ✨\n\n📌 Your Task Has Been Added ✅\n⏳ Position In Queue: {position}")
+        await message.reply(
+            f"5/5 Process running, Your video will be compressed soon😎.\n"
+            f"Please wait until others' tasks are completed ✨\n\n📌 Your Task Has Been Added ✅\n⏳ Position In Queue: {position}"
+        )
         await db.add_to_queue(user_id, message.video.file_id, message.video.file_name)
         return
 
