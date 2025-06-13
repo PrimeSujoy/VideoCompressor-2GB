@@ -28,8 +28,9 @@ async def handle_video(client, message: Message):
     await process_queue(client)
 
 async def process_queue(client):
-  task = await db.get_next_in_queue()
-    if not task: return
+    task = await db.get_next_in_queue()
+    if not task:
+        return
 
     user_id = task["user_id"]
     file_id = task["file_id"]
@@ -46,12 +47,17 @@ async def process_queue(client):
 
     output_path = f"compressed_{file_name}"
     await message.edit("🚀 Trying To Compress... ⚡")
-    compressed_path = await compress_video(input_path, output_path, codec="libx265" if os.path.getsize(input_path) > 1e9 else "libx264")
+    compressed_path = await compress_video(
+        input_path, output_path, codec="libx265" if os.path.getsize(input_path) > 1e9 else "libx264"
+    )
 
     if compressed_path:
         await message.edit("🚀 Trying To Upload... 💠")
         await client.send_video(user_id, compressed_path)
-        await message.edit(f"✅ Upload Complete!\n\n🔗 Original Size: {human_readable_size(os.path.getsize(input_path))}\n🔗 Compressed Size: {human_readable_size(os.path.getsize(compressed_path))}")
+        await message.edit(
+            f"✅ Upload Complete!\n\n🔗 Original Size: {human_readable_size(os.path.getsize(input_path))}\n"
+            f"🔗 Compressed Size: {human_readable_size(os.path.getsize(compressed_path))}"
+        )
         os.remove(compressed_path)
 
     os.remove(input_path)
@@ -64,4 +70,7 @@ async def simulate_progress(message, start_time, total_size):
         speed = (total_size / 1024) / elapsed_time if elapsed_time > 0 else 0
         eta = (total_size / 1024) / speed if speed > 0 else 0
         progress = progress_bar(i, 100)
-        await message.edit(f"{progress}\n\n🔗 Size : {human_readable_size(total_size)}\n⏳️ Done : {i}%\n🚀 Speed : {round(speed, 2)} KB/s\n⏰️ ETA : {time_formatter(eta * 1000)}")
+        await message.edit(
+            f"{progress}\n\n🔗 Size : {human_readable_size(total_size)}\n⏳️ Done : {i}%\n"
+            f"🚀 Speed : {round(speed, 2)} KB/s\n⏰️ ETA : {time_formatter(eta * 1000)}"
+        )
